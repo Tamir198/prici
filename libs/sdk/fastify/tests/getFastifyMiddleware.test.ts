@@ -50,16 +50,13 @@ test.describe('fastifyGuard middleware', () => {
   test.it(
     'should allow access and increment field when the user is allowed',
     async () => {
-      // Mock behavior for allowed access
       mockSdk.getFieldState = async () => ({ isAllowed: true });
       mockSdk.incrementField = async () => {};
 
       const response = await app.inject({
         method: 'GET',
         url: '/test',
-        headers: {
-          'account-id': 'testAccount',
-        },
+        headers: { 'account-id': 'testAccount' },
       });
 
       assert.equal(response.statusCode, 200);
@@ -70,15 +67,12 @@ test.describe('fastifyGuard middleware', () => {
   test.it(
     'should deny access with a 402 status code when the user is not allowed',
     async () => {
-      // Mock behavior for denied access
       mockSdk.getFieldState = async () => ({ isAllowed: false });
 
       const response = await app.inject({
         method: 'GET',
         url: '/test',
-        headers: {
-          'account-id': 'testAccount',
-        },
+        headers: { 'account-id': 'testAccount' },
       });
 
       assert.equal(response.statusCode, 402);
